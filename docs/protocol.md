@@ -24,3 +24,13 @@ UDP:
 
             Any 3 bits (not necessarily in a row) are 1
             for no, you can't afford that
+
+API:
+
+struct wat {
+    int32 wantAmount;
+    int32 haveAmount;
+}
+
+void shittyEncoded(wat huh): int64 {}
+void shittyDecoded(int64 encodedWat): wat {}
