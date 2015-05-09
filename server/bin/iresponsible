@@ -1,0 +1,8 @@
+#!/usr/local/bin python
+from iresponsible.daemon.daemon import IResponsibleDaemon
+
+def main():
+    IResponsibleDaemon("chihaya", 8000).start()
+
+if __name__ == "__main__":
+    main()
