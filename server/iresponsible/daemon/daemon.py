@@ -35,8 +35,3 @@ class IResponsibleDaemon(object):
                 time.sleep(99999)
         except (KeyboardInterrupt, SystemExit) as ex:
            self.terminate_workers()
-
-class Request(util.ComparableObject):
-    def __init__(self, addr, data):
-        self.addr = addr
-        self.data = data
