@@ -23,3 +23,19 @@ class ComparableObject(object):
     @classmethod
     def _from_obj_dict(cls, obj_dict):
         return cls(**obj_dict)
+
+def bits(n):
+    for _ in xrange(32):
+        if n == 0:
+            yield 0
+        else:
+            b = n % 2
+            n = n / 2
+            yield b
+
+def packed(elements):
+    n = 0
+    for index, b in enumerate(elements):
+        if b != 0:
+            n += 2 ** index
+    return n

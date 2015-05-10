@@ -1,4 +1,5 @@
 import multiprocessing.pool
+import json
 import socket
 import time
 
@@ -14,17 +15,36 @@ class IResponsibleDaemon(object):
     def daemon_loop(self):
         while True:
             try:
-                request = self.pop_request()
-                print request
+                data, addr = self.sock.recvfrom(1024)
+                try:
+                    request = Request(addr, data)
+                    want = request.want
+                    have = request.have
+                    if want > have:
+                        response = NoResponse().bytes()
+                    else:
+                        response = YesResponse().bytes()
+                except Exception:
+                    blob = json.loads(data)
+                    want = blob["want"]
+                    have = blob["have"]
+                    if want > have:
+                        response = json.dumps({"answer": "no"})
+                    else:
+                        response = json.dumps({"answer": "yes"})
 
-                time.sleep(1)
+                print "want", want, "have", have, "response", response
+                sent = self.sock.sendto(response, addr)
+                print "sent?", sent, addr
             except Exception as ex:
-                print "Exception: {}".format(ex)
+                print "Exception: {} {} {}".format(ex, addr, repr(data))
+                sent = self.sock.sendto("fail", addr)
+                print "sent?", sent, addr
+
+            time.sleep(1)
 
     def pop_request(self):
-        data, addr = self.sock.recvfrom(1024)
         return Request(addr, data)
-
 
     def start(self):
         self.sock.bind((self.hostname, self.port))

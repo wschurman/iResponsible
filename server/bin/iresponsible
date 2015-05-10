@@ -2,7 +2,7 @@
 from iresponsible.daemon.daemon import IResponsibleDaemon
 
 def main():
-    IResponsibleDaemon("chihaya", 8000).start()
+    IResponsibleDaemon("10.20.1.229", 8000).start()
 
 if __name__ == "__main__":
     main()
