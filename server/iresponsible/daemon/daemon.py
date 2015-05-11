@@ -29,9 +29,11 @@ class IResponsibleDaemon(object):
                     want = blob["want"]
                     have = blob["have"]
                     if want > have:
-                        response = json.dumps({"answer": "no"})
+                        d = {"answer": "no"}
                     else:
-                        response = json.dumps({"answer": "yes"})
+                        d = {"answer": "yes"}
+                    d["client_request_id"] = blob["client_request_id"]
+                    response = json.dumps(d)
 
                 print "want", want, "have", have, "response", response
                 sent = self.sock.sendto(response, addr)
@@ -54,4 +56,5 @@ class IResponsibleDaemon(object):
             while True:
                 time.sleep(99999)
         except (KeyboardInterrupt, SystemExit) as ex:
-           self.terminate_workers()
+           # self.terminate_workers()
+           pass
