@@ -110,6 +110,8 @@
 #pragma mark - Button Submit
 
 - (void)submit {
+    [_priceField resignFirstResponder];
+    [_budgetField resignFirstResponder];
     [_requestHandler sendRequestForPrice:[_priceField.text integerValue] budget:[_budgetField.text integerValue]];
     [_resultLabel setText:@""];
     [_activityIndicator startAnimating];
